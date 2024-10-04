@@ -1,5 +1,6 @@
 package com.duongw.stayeasy.service;
 
+import com.duongw.stayeasy.dto.request.user.UserLogin;
 import com.duongw.stayeasy.dto.request.user.UserRegistration;
 import com.duongw.stayeasy.dto.request.user.UserUpdateRequest;
 import com.duongw.stayeasy.model.Role;
@@ -10,7 +11,9 @@ import java.util.List;
 public interface IUserService {
     User createUser(UserRegistration userRegistration);
 
-    User updateUser(UserUpdateRequest user);
+    User login(UserLogin userLogin);
+
+    User updateUser(UserUpdateRequest user, Long userId);
 
     void deleteUser(Long userId);
 
@@ -26,6 +29,12 @@ public interface IUserService {
 
     List<User> searchUser(String keyword);
     User changeUserStatus (boolean status, Long userId);
+
+    List<User> getUsersByRole(String roleName);
+
+    List<User> getAllUsers();
+
+
 
 
 

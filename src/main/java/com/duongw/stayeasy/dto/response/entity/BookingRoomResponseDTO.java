@@ -4,11 +4,18 @@ import com.duongw.stayeasy.enums.BookingRoomStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class BookingRoomResponseDTO {
 
     private Long id;
@@ -26,6 +33,10 @@ public class BookingRoomResponseDTO {
     private int totalNumberOfGuest;
 
     private String bookingConfirmationCode;
+
+    private CustomerDTO customerDTO;
+
+    private RoomResponseDTO roomResponseDTO;
 
     public BookingRoomResponseDTO(Long id, BookingRoomStatus bookingRoomStatus, LocalDate checkInDate, LocalDate checkOutDate, int numberOfAdults, int numberOfChildren, int totalNumberOfGuest, String bookingConfirmationCode) {
         this.id = id;

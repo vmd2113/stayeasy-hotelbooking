@@ -2,6 +2,7 @@ package com.duongw.stayeasy.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,20 +25,21 @@ public class User {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email",nullable = false, unique = true)
     private String email;
 
     @Column(name = "enabled")
     private Boolean enabled;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

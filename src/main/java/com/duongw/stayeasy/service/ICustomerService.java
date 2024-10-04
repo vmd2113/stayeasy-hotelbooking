@@ -3,12 +3,15 @@ package com.duongw.stayeasy.service;
 import com.duongw.stayeasy.dto.request.customer.CustomerDetail;
 import com.duongw.stayeasy.dto.request.customer.CustomerUpdateRequest;
 import com.duongw.stayeasy.dto.response.entity.BookingRoomResponseDTO;
+import com.duongw.stayeasy.dto.response.entity.CustomerDTO;
 import com.duongw.stayeasy.model.BookingRoom;
 import com.duongw.stayeasy.model.Customer;
 
 import java.util.List;
 
 public interface ICustomerService {
+
+    Customer saveCustomer(Long userId, CustomerDTO customerDTO);
 
     Customer addBookingRoom(Long customerId, Long roomId, BookingRoom bookingRoom);
     Customer removeBookingRoom(Long customerId, Long bookingRoomId);

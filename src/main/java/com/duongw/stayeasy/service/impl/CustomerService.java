@@ -3,15 +3,18 @@ package com.duongw.stayeasy.service.impl;
 import com.duongw.stayeasy.dto.request.customer.CustomerDetail;
 import com.duongw.stayeasy.dto.request.customer.CustomerUpdateRequest;
 import com.duongw.stayeasy.dto.response.entity.BookingRoomResponseDTO;
+import com.duongw.stayeasy.dto.response.entity.CustomerDTO;
 import com.duongw.stayeasy.enums.BookingRoomStatus;
 import com.duongw.stayeasy.enums.RoomStatus;
 import com.duongw.stayeasy.exception.ResourceNotFoundException;
 import com.duongw.stayeasy.model.BookingRoom;
 import com.duongw.stayeasy.model.Customer;
 import com.duongw.stayeasy.model.Room;
+import com.duongw.stayeasy.model.User;
 import com.duongw.stayeasy.repository.BookingRoomRepository;
 import com.duongw.stayeasy.repository.CustomerRepository;
 import com.duongw.stayeasy.repository.RoomRepository;
+import com.duongw.stayeasy.repository.UserRepository;
 import com.duongw.stayeasy.service.ICustomerService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -28,6 +31,32 @@ public class CustomerService implements ICustomerService {
     private final CustomerRepository customerRepository;
     private final BookingRoomRepository bookingRoomRepository;
     private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
+
+    @Override
+    public Customer saveCustomer(Long userId, CustomerDTO customerDTO) {
+        // Step 1: Retrieve the user by userId
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        // Step 2: Create a new Customer instance and set its properties
+        Customer customer = new Customer();
+        customer.setName(customerDTO.getName());
+        customer.setPhoneNumber(customerDTO.getPhoneNumber());
+        customer.setAddress(customerDTO.getAddress());
+
+        // Step 3: Set the relationship between user and customer
+        customer.setUser(user);
+        user.setCustomer(customer);
+
+        // Step 4: Save the customer and user
+        customerRepository.save(customer);
+        userRepository.save(user);
+
+        return customer;
+    }
+
+
 
 
 

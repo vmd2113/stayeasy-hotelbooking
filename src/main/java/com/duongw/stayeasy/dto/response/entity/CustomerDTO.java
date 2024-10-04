@@ -1,5 +1,8 @@
 package com.duongw.stayeasy.dto.response.entity;
 
+import lombok.Data;
+
+@Data
 public class CustomerDTO {
 
     private String username;

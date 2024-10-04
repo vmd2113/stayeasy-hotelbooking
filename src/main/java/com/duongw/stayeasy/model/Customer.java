@@ -21,11 +21,11 @@ public class Customer {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "phone_number")
@@ -115,6 +115,8 @@ public class Customer {
 
         return checkOutDate != null && !currentDate.isBefore(checkOutDate);
     }
+
+
 
 
 }
