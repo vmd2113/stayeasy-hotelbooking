@@ -3,8 +3,7 @@ package com.duongw.stayeasy.model;
 import com.duongw.stayeasy.enums.BookingRoomStatus;
 import com.duongw.stayeasy.enums.RoomStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.time.LocalDate;
@@ -15,6 +14,10 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "customers")
+@Builder
+@AllArgsConstructor
+
+
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +28,11 @@ public class Customer {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
 
     @Column(name = "phone_number")
     private String phoneNumber;

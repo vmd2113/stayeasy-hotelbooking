@@ -3,6 +3,7 @@ package com.duongw.stayeasy.service.impl;
 import com.duongw.stayeasy.dto.request.room.CreateRoomDTO;
 import com.duongw.stayeasy.dto.request.room.RoomDTO;
 import com.duongw.stayeasy.dto.request.room.UpdateRoomDTO;
+import com.duongw.stayeasy.dto.response.PageResponse;
 import com.duongw.stayeasy.dto.response.entity.BookingRoomResponseDTO;
 import com.duongw.stayeasy.dto.response.entity.ImageResponseDTO;
 import com.duongw.stayeasy.enums.RoomStatus;
@@ -13,6 +14,8 @@ import com.duongw.stayeasy.repository.CategoryRepository;
 import com.duongw.stayeasy.repository.RoomRepository;
 import com.duongw.stayeasy.service.IRoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -149,19 +152,18 @@ public class RoomService implements IRoomService {
         return null;
     }
 
-//    private PageResponse<?> convertToPageResponse(Page<User> users, Pageable pageable) {
-//        List<UserDetailResponse> response = users.stream().map(user -> UserDetailResponse.builder()
-//                .id(user.getId())
-//                .firstName(user.getFirstName())
-//                .lastName(user.getLastName())
-//                .email(user.getEmail())
-//                .phone(user.getPhone())
-//                .build()).toList();
-//        return PageResponse.builder()
-//                .pageNo(pageable.getPageNumber())
-//                .pageSize(pageable.getPageSize())
-//                .total(users.getTotalPages())
-//                .items(response)
-//                .build();
-//    }
+    @Override
+    public List<Room> getRoomByRoomStatus(RoomStatus status) {
+        return null;
+    }
+
+    private PageResponse<?> convertToPageResponse(Page<Room> rooms, Pageable pageable) {
+        List<RoomDTO> response = rooms.stream().map(room -> convertRoomToRoomDTO(room)).toList();
+        return PageResponse.builder()
+                .pageNo(pageable.getPageNumber())
+                .pageSize(pageable.getPageSize())
+                .total(rooms.getTotalPages())
+                .items(response)
+                .build();
+    }
 }

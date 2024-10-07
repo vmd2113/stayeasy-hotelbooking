@@ -41,7 +41,8 @@ public class CustomerService implements ICustomerService {
 
         // Step 2: Create a new Customer instance and set its properties
         Customer customer = new Customer();
-        customer.setName(customerDTO.getName());
+        customer.setFirstName(customerDTO.getFirstName());
+        customer.setLastName(customerDTO.getLastName());
         customer.setPhoneNumber(customerDTO.getPhoneNumber());
         customer.setAddress(customerDTO.getAddress());
 
@@ -144,7 +145,8 @@ public class CustomerService implements ICustomerService {
         Customer existingCustomer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
-        existingCustomer.setName(customerUpdateRequest.getName());
+        existingCustomer.setFirstName(customerUpdateRequest.getFirstName());
+        existingCustomer.setLastName(customerUpdateRequest.getLastName());
         existingCustomer.setPhoneNumber(customerUpdateRequest.getPhoneNumber());
         existingCustomer.setAddress(customerUpdateRequest.getAddress());
 

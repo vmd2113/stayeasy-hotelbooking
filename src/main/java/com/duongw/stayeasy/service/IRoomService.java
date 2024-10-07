@@ -37,6 +37,8 @@ public interface IRoomService {
 
     List<Room> searchRoomsByDescription(String keyword);
 
+    List<Room> getRoomByRoomStatus(RoomStatus status);
+
 
 
 

@@ -199,8 +199,26 @@ public class RoomController {
         }
     }
 
+    @GetMapping(path = "/list-all-rooms-by-status")
+    public ResponseEntity<ApiResponse<?>> getAllRoomByStatus(@RequestParam(name = "status") RoomStatus status) {
+        try {
+            List<Room> rooms = roomService.getRoomByRoomStatus(status);
+            List<RoomDTO> roomDTOList = roomService.convertListRoomToRoomDTO(rooms);
+
+            ApiResponse<?> response = new ApiResponse<>(true, "Get list room success", HttpStatus.OK.value(), roomDTOList);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            ApiResponse<Void> response = new ApiResponse<>(false, "Get list room failed", HttpStatus.NOT_FOUND.value(), null);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+
+        } catch (Exception e) {
+            ApiResponse<Void> response = new ApiResponse<>(false, "Get room fall, something was wrong", HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping(path = "/search")
-    public ResponseEntity<ApiResponse<?>> getRoomBySearchDescription(@RequestParam(name = "keyword") String keyword) {
+        public ResponseEntity<ApiResponse<?>> getRoomBySearchDescription(@RequestParam(name = "keyword") String keyword) {
         try {
             List<Room> rooms = roomService.searchRoomsByDescription(keyword);
             List<RoomDTO> roomDTOList = roomService.convertListRoomToRoomDTO(rooms);
