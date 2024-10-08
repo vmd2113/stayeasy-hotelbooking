@@ -2,13 +2,16 @@ package com.duongw.stayeasy.model;
 
 import com.duongw.stayeasy.enums.BookingRoomStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "booking_rooms")
 public class BookingRoom {
@@ -46,6 +49,8 @@ public class BookingRoom {
     @JoinColumn(name = "room_id")
     private Room room;
 
+
+
     public void calculateTotalNumberOfGuest() {
         this.totalNumberOfGuest = this.numberOfAdults + this.numberOfChildren;
     }
@@ -63,6 +68,12 @@ public class BookingRoom {
     public void setBookingConfirmationCode(String bookingConfirmationCode) {
         this.bookingConfirmationCode = bookingConfirmationCode;
     }
+
+    public void setBookingConfirmationCode() {
+        this.bookingConfirmationCode = RandomStringUtils.randomNumeric(10);
+    }
+
+
 
 
 }

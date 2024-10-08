@@ -1,7 +1,7 @@
 package com.duongw.stayeasy.service.impl;
 
-import com.duongw.stayeasy.dto.request.customer.CustomerDetail;
 import com.duongw.stayeasy.dto.request.customer.CustomerUpdateRequest;
+import com.duongw.stayeasy.dto.response.PageResponse;
 import com.duongw.stayeasy.dto.response.entity.BookingRoomResponseDTO;
 import com.duongw.stayeasy.dto.response.entity.CustomerDTO;
 import com.duongw.stayeasy.enums.BookingRoomStatus;
@@ -35,22 +35,19 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer saveCustomer(Long userId, CustomerDTO customerDTO) {
-        // Step 1: Retrieve the user by userId
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        // Step 2: Create a new Customer instance and set its properties
         Customer customer = new Customer();
         customer.setFirstName(customerDTO.getFirstName());
         customer.setLastName(customerDTO.getLastName());
         customer.setPhoneNumber(customerDTO.getPhoneNumber());
         customer.setAddress(customerDTO.getAddress());
 
-        // Step 3: Set the relationship between user and customer
         customer.setUser(user);
         user.setCustomer(customer);
 
-        // Step 4: Save the customer and user
         customerRepository.save(customer);
         userRepository.save(user);
 
@@ -162,25 +159,91 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public List<CustomerDetail> getAllCustomers() {
-        return null;
+    public CustomerDTO checkCustomerPhoneNumber(Long customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+        if(customerRepository.existsByPhoneNumber(customer.getPhoneNumber())){
+            throw new ResourceNotFoundException("Phone number already exists");
+        }
+        return convertToCustomerDTO(customer);
+    }
+
+    private CustomerDTO convertToCustomerDTO(Customer customer) {
+        return CustomerDTO.builder()
+                .username(customer.getUser().getUsername())
+                .email(customer.getUser().getEmail())
+                .firstName(customer.getFirstName())
+                .lastName(customer.getLastName())
+                .phoneNumber(customer.getPhoneNumber())
+                .address(customer.getAddress())
+                .build();
     }
 
     @Override
-    public Customer getCustomerById(Long customerId) {
-        return customerRepository.findById(customerId).orElseThrow(()-> new ResourceNotFoundException("Customer not found"));
+    public Customer convertToCustomer(CustomerDTO customerDTO) {
+        User user = userRepository.findByUsername(customerDTO.getUsername());
+
+        return Customer.builder()
+                .user(user)
+                .lastName(customerDTO.getLastName())
+                .firstName(customerDTO.getFirstName())
+                .phoneNumber(customerDTO.getPhoneNumber())
+                .address(customerDTO.getAddress())
+                .build();
+    }
+
+    @Override
+    public List<CustomerDTO> getAllCustomers() {
+        return customerRepository.findAll().stream().map(customer -> convertToCustomerDTO(customer)).toList();
+    }
+
+    @Override
+    public CustomerDTO getCustomerById(Long customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(()-> new ResourceNotFoundException("Customer not found"));
+        return convertToCustomerDTO(customer);
     }
 
     @Override
     public List<BookingRoomResponseDTO> getCustomerBookingRooms(Long customerId) {
-        Customer customer = getCustomerById(customerId);
+        Customer customer =customerRepository.findById(customerId).orElseThrow(()-> new ResourceNotFoundException("Customer not found"));
         List<BookingRoom> bookingRooms = customer.getBookingRoomList();
         List<BookingRoomResponseDTO> bookingRoomResponseDTOList = new ArrayList<>();
+        for (BookingRoom bookingRoom : bookingRooms) {
+            BookingRoomResponseDTO bookingRoomResponseDTO = BookingRoomResponseDTO.builder()
+                    .id(bookingRoom.getId())
+                    .bookingRoomStatus(bookingRoom.getBookingRoomStatus())
+                    .checkInDate(bookingRoom.getCheckInDate())
+                    .checkOutDate(bookingRoom.getCheckOutDate())
+                    .numberOfAdults(bookingRoom.getNumberOfAdults())
+                    .numberOfChildren(bookingRoom.getNumberOfChildren())
+                    .totalNumberOfGuest(bookingRoom.getTotalNumberOfGuest())
+                    .bookingConfirmationCode(bookingRoom.getBookingConfirmationCode())
+                    .customerDTO(convertToCustomerDTO(bookingRoom.getCustomer()))
+                    .roomId(bookingRoom.getRoom().getId())
+                    .build();
+            bookingRoomResponseDTOList.add(bookingRoomResponseDTO);
+        }
+        return bookingRoomResponseDTOList;
+
+    }
+
+
+
+    //TODO: thực hiện viết custom query - search customer
+    @Override
+    public PageResponse<?> getAllCustomersWithSortBy(int pageNo, int pageSize, String sortBy) {
         return null;
     }
 
     @Override
-    public BookingRoom getBookingRoomById(Long bookingRoomId) {
+    public PageResponse<?> getAllCustomersWithSortByMultipleColumns(int pageNo, int pageSize, String... sorts) {
         return null;
     }
+
+    @Override
+    public PageResponse<?> getAllCustomersAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search, String sortBy) {
+        return null;
+    }
+
+
 }

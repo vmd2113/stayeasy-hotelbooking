@@ -1,5 +1,6 @@
 package com.duongw.stayeasy.controller;
 
+import com.duongw.stayeasy.configuration.AppConstant;
 import com.duongw.stayeasy.dto.response.entity.ImageResponseDTO;
 import com.duongw.stayeasy.dto.response.ApiResponse;
 import com.duongw.stayeasy.exception.ResourceNotFoundException;
@@ -19,12 +20,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/v1/images")
+@RequestMapping(path = AppConstant.API_PREFIX_IMAGE)
 @RequiredArgsConstructor
 public class ImageController {
 
     private final IImageService imageService;
-
 
     @GetMapping("/room/{roomId}")
     public ResponseEntity<ApiResponse<?>> getImagesByRoomId(@PathVariable Long roomId) {

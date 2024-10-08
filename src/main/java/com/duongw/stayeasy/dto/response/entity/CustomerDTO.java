@@ -9,6 +9,8 @@ import java.util.List;
 @Builder
 public class CustomerDTO {
 
+    private Long id;
+
     private String username;
     private String email;
     private String firstName;

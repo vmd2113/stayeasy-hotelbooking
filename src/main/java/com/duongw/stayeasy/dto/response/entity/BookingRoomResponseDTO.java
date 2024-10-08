@@ -36,7 +36,7 @@ public class BookingRoomResponseDTO {
 
     private CustomerDTO customerDTO;
 
-    private RoomResponseDTO roomResponseDTO;
+    private Long roomId;
 
     public BookingRoomResponseDTO(Long id, BookingRoomStatus bookingRoomStatus, LocalDate checkInDate, LocalDate checkOutDate, int numberOfAdults, int numberOfChildren, int totalNumberOfGuest, String bookingConfirmationCode) {
         this.id = id;

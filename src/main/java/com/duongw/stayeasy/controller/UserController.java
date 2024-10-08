@@ -322,12 +322,12 @@ public class UserController {
     @Operation(
             method = "GET",
             summary = "Get all users",
-            description = "Retrieve a list of all registered users, with sorting "
+            description = "Retrieve a list of all registered users, with sorting multiple columns"
     )
     @GetMapping("/list-user-and-search-with-paging-and-sorting")
     public ResponseEntity<ApiResponse<?>> getAllUserMultipleColumns(@RequestParam(value = "page_no", defaultValue = "0", required = false) int pageNo,
                                                                     @RequestParam(value = "page_size", defaultValue = "20", required = false) int pageSize,
-                                                                    @RequestParam(value = "sort_by", required = false) String sortBy) {
+                                                                    @RequestParam(value = "sort_by", required = false) String... sortBy) {
 
 
         try {

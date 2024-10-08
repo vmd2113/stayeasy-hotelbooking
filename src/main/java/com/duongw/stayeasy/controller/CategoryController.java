@@ -1,5 +1,6 @@
 package com.duongw.stayeasy.controller;
 
+import com.duongw.stayeasy.configuration.AppConstant;
 import com.duongw.stayeasy.dto.response.ApiResponse;
 import com.duongw.stayeasy.exception.ResourceNotFoundException;
 import com.duongw.stayeasy.model.RoomCategory;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/v1/categories")
+@RequestMapping(path = AppConstant.API_PREFIX_CATEGORY)
 @RequiredArgsConstructor
 public class CategoryController {
     private final IRoomCategoryService categoryService;

@@ -47,6 +47,7 @@ public class Customer {
         this.bookingRoomList = new ArrayList<>();
     }
 
+    // thực hiện checkin booking room
     public void addBookingRoom(BookingRoom bookingRoom) {
         if (bookingRoomList == null) {
             bookingRoomList = new ArrayList<>();

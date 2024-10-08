@@ -1,26 +1,29 @@
 package com.duongw.stayeasy.service;
 
-public interface IBookingRoomService {
-    //TODO: thực hiện viết lại chương trình này
+import com.duongw.stayeasy.dto.request.bookingroom.CreateBookingDTO;
+import com.duongw.stayeasy.dto.response.entity.BookingRoomResponseDTO;
+import com.duongw.stayeasy.model.BookingRoom;
 
-//    // Tạo một đơn đặt phòng mới
-//    BookingDTO createBooking(CreateBookingDTO createBookingDTO);
-//
-//    // Cập nhật thông tin một đơn đặt phòng
-//    BookingDTO updateBooking(Long bookingId, UpdateBookingDTO updateBookingDTO);
-//
-//    // Hủy một đơn đặt phòng
-//    void cancelBooking(Long bookingId);
-//
-//    // Lấy danh sách các đơn đặt phòng của khách hàng
-//    List<BookingDTO> getAllBookingsByCustomerId(Long customerId);
-//
-//    // Tìm kiếm thông tin đơn đặt phòng theo ID
-//    BookingDTO getBookingById(Long bookingId);
-//
-//    // Xác nhận đơn đặt phòng
-//    BookingDTO confirmBooking(Long bookingId);
-//
-//    // Tìm kiếm các đơn đặt phòng theo trạng thái
-//    List<BookingDTO> getBookingsByStatus(String status);
+import java.util.List;
+
+public interface IBookingRoomService {
+    BookingRoomResponseDTO convertBookingRoomToBookingRoomResponseDTO(BookingRoom bookingRoom);
+
+    BookingRoom convertBookingRoomResponseDTOToBookingRoom(BookingRoomResponseDTO bookingRoomResponseDTO);
+
+    BookingRoomResponseDTO createBookingRoom(Long customerId, CreateBookingDTO createBookingDTO); // Tạo đặt phòng cho customer
+    void cancelBookingRoom(Long customerId, Long bookingRoomId); // Hủy đặt phòng của customer
+    BookingRoomResponseDTO getCustomerBookingRoom(Long customerId, Long bookingRoomId); // Xem thông tin đặt phòng của customer
+    List<BookingRoomResponseDTO> getAllCustomerBookingRooms(Long customerId); // Lấy danh sách đặt phòng của customer
+    List<BookingRoomResponseDTO> getAllBookingRooms(); // Xem tất cả đặt phòng
+    BookingRoomResponseDTO updateBookingRoomStatus(Long bookingRoomId, String status); // Cập nhật trạng thái đặt phòng
+
+    void deleteBookingRoom(Long customerId, Long bookingRoomId); // Xóa đặt phòng
+    void deleteBookingRoomById(Long bookingRoomId); // Xóa đặt phòng
+
+
+
+
+
+
 }

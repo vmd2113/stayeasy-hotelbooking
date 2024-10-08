@@ -1,5 +1,6 @@
 package com.duongw.stayeasy.controller;
 
+import com.duongw.stayeasy.configuration.AppConstant;
 import com.duongw.stayeasy.dto.request.room.CreateRoomDTO;
 import com.duongw.stayeasy.dto.request.room.RoomDTO;
 import com.duongw.stayeasy.dto.request.room.UpdateRoomDTO;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/v1/rooms")
+@RequestMapping(path = AppConstant.API_PREFIX_ROOM)
 @RequiredArgsConstructor
 
 public class RoomController {
